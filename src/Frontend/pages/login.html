@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('styles', path='loginStyle.css') }}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg" href="{{ url_for('static', path='imgs/logo.svg') }}">
+
+</head>
+
+<body>
+
+           <!-- The Navbar -->
+    <div class="navbar-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <a class="navbar-brand" href="/home">
+            <img src="{{ url_for('static', path='imgs/logo.svg') }}" alt="Logo" height="30">
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/destinations">Destinations</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/hotels">Hotels</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/booking">Booking</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/login"><img src="{{ url_for('static', path='imgs/user.svg') }}"></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+    </div>
+
+    <!-- The Content -->
+  <div class="container">
+    <h1>Not your first time?</h1>
+    <p>Insert your credentials to access your data.</p>
+    <h1>{{wrongPass}}</h1>
+    <div class="container-form">
+        <form method="post" action="/login">
+            <div class="row">
+                <div class="col">
+                  <input type="email" name="email" class="form-control" placeholder="Email">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+            </div>
+            <div class="container-submit">
+                <button class="button">LOGIN</button>
+            </div>
+        </form>
+    </div>
+    <p class="switch-option-paragrpah">It’s your first time? <a class="switch-option" href="/register">Create an account</a></p>
+  </div>
+    
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
