@@ -4,7 +4,8 @@
 2. Choose a destination
 3. Look for an Hotel
 4. Book the hotel
-5. Rate the hotel
+5. Cancel a booking
+   
 
 ## Backend:
 1. Store users data in a database, data such as:
