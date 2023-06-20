@@ -1,4 +1,6 @@
 from datetime import datetime
+from pathlib import Path
+
 from fastapi import Depends, HTTPException, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi import Depends, HTTPException
@@ -13,7 +15,8 @@ from src.backend.dependencies import get_db
 from src.backend.models import Client, Room, BookRoom, User
 
 router = APIRouter()
-templates = Jinja2Templates(directory="C:\\Users\\ivanm\\PycharmProjects\\BookingSystem\\src\\Frontend")
+current_dir = Path(__file__).resolve().parent.parent.parent.parent
+templates = Jinja2Templates(directory=current_dir / "Frontend")
 
 
 @router.get("/")
@@ -34,7 +37,8 @@ async def login(request: Request, db: Session = Depends(get_db)):
     user = crud.authenticate_user(db, _email, _password)
     if user:
         print("logged")
-        res,name = crud.getClientData(db, user)
-        return templates.TemplateResponse("pages/userBookings.html", {"request": request, "res": res, "Name": name})
+        res, name = crud.getClientData(db, user)
+        return templates.TemplateResponse("pages/userBookings.html", {"request": request, "res": res, "Name": name,
+                                                                      "email": user.email})
     else:
         return templates.TemplateResponse("pages/login.html", {"request": request, "wrongPass": "Wrong Pass or email"})

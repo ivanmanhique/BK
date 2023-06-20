@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from fastapi import Depends
 from fastapi.routing import APIRouter
 from fastapi import Request
@@ -10,14 +12,15 @@ from src.backend import crud
 from src.backend.dependencies import get_db
 
 router = APIRouter()
+current_dir = Path(__file__).resolve().parent.parent.parent.parent
 router.mount("/static",
-             StaticFiles(directory="C:\\Users\\ivanm\\PycharmProjects\\BookingSystem\\src\\Frontend\\static"),
+             StaticFiles(directory=current_dir / "Frontend" / "static"),
              name="static")
 router.mount("/styles",
-             StaticFiles(directory="C:\\Users\\ivanm\\PycharmProjects\\BookingSystem\\src\\Frontend\\styles"),
+             StaticFiles(directory=current_dir / "Frontend" / "styles"),
              name="styles")
 
-templates = Jinja2Templates(directory="C:\\Users\\ivanm\\PycharmProjects\\BookingSystem\\src\\Frontend")
+templates = Jinja2Templates(directory=current_dir / "Frontend")
 
 
 @router.get("/", response_class=HTMLResponse)

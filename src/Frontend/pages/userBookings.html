@@ -49,8 +49,11 @@
     
             <div class="container">
               <h1>Hello, {{Name}}</h1>
+            {% set length = res|length %}
+            {% if length <1 %}
+                <p>Oops, You have no bookings!</p>
+            {% else %}
               <p>Below you can find out about all the reservations you have made.</p>
-
               <table class="table">
                 <thead>
                   <tr>
@@ -61,19 +64,33 @@
                   </tr>
                 </thead>
                 <tbody>
-                {% for destination_name, hotel_name, start_date, end_date in res %}
+                {% for booking_id,destination_name, hotel_name, start_date, end_date in res %}
                   <tr>
                         <td>{{destination_name}}</td>
                         <td>{{hotel_name}}</td>
                         <td>{{start_date}}</td>
                         <td>{{end_date}}</td>
+                        <td class="delete-button-container">
+                        <form action="/booking/cancel/{{booking_id}}/{{email}}" method="post" onsubmit="return confirm('Are you sure? This cannot be undone.');">
+                            <button type="submit" class="delete-button">Cancel</button>
+                        </form>
+
+<!--                      <td class="delete-button-container" ><button class="delete-button"  onclick="return confirm('Are you sure? This cant be undone')">-->
+<!--                          <a class="delete-btn" href="#">Cancel</a>-->
+<!--                      </button></td>-->
                   </tr>
+
                 {% endfor %}
                 </tbody>
               </table>
-      
+            {% endif %}
           </div>
-    
+
+        <script>
+            function goBack() {
+                history.back();
+            }
+        </script>
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>

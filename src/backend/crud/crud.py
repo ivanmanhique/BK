@@ -10,9 +10,15 @@ from src.backend.models import Hotel, Client, BookRoom
 from src.backend.models.models import User, Destination, Room
 
 
+def deleteBooking(db:Session, bookingId: int):
+    booking = db.query(BookRoom).filter_by(id = bookingId).first()
+    db.delete(booking)
+    db.commit()
+
+
 def getClientData(db: Session, user: User):
     client = db.query(Client).filter_by(email=user.email).first()
-    result = db.query(Destination.name, Hotel.name, BookRoom.start, BookRoom.end). \
+    result = db.query(BookRoom.id,Destination.name, Hotel.name, BookRoom.start, BookRoom.end). \
         join(Hotel).join(Room).join(BookRoom).join(Client). \
         filter(Client.email == user.email).all()
     return result, client.firstname
@@ -21,13 +27,12 @@ def getClientData(db: Session, user: User):
 def register(db: Session, _user: User) -> bool:
     user = db.query(User).filter_by(email=_user.email).first()
     users = db.query(User).all()
-
     # Iterate over the users
-    for user in users:
-        print("User pass:", user.password)
-        print("Email:", user.email)
+    for __user in users:
+        print("User pass:", __user.password)
+        print("Email:", __user.email)
 
-    if not user:
+    if user is None:
         db.add(_user)
         db.commit()
         return True
@@ -37,6 +42,12 @@ def register(db: Session, _user: User) -> bool:
 
 def authenticate_user(db: Session, _email: str, _password: str) -> User:
     user = db.query(User).filter_by(email=_email, password=_password).first()
+    users = db.query(User).all()
+    # Iterate over the users
+    for _user in users:
+        print("User pass:", _user.password)
+        print("Email:", _user.email)
+
     if user:
         return user
     else:
@@ -47,7 +58,6 @@ def createBooking(booking: BookRoom, db: Session):
 
     db.add(booking)
     db.commit()
-
 
 
 def isUser(user: Client, db: Session):

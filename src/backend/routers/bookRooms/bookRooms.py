@@ -7,11 +7,13 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from src.backend import crud, schemas
+from pathlib import Path
 from src.backend.dependencies import get_db
-from src.backend.models import Client, Room, BookRoom
+from src.backend.models import Client, Room, BookRoom, User
 
 router = APIRouter()
-templates = Jinja2Templates(directory="C:\\Users\\ivanm\\PycharmProjects\\BookingSystem\\src\\Frontend")
+current_dir = Path(__file__).resolve().parent.parent.parent.parent
+templates = Jinja2Templates(directory=current_dir / "Frontend")
 
 
 @router.get("/")
@@ -37,7 +39,7 @@ async def book(request: Request, db: Session = Depends(get_db)):
     booked = crud.isHotel_Destination(hotel, destination, db)
     if booked:
         _client = Client(firstname=firstname, lastname=lastname, email=_email, date_of_birth=birthdate)
-        _user = crud.isUser(_client, db)
+        # _user = crud.isUser(_client, db)
         _hotel = crud.getHotel_Destination(db, hotel)
         _destination = _hotel.destination
         _room = Room(hotel=_hotel)
@@ -52,9 +54,12 @@ async def book(request: Request, db: Session = Depends(get_db)):
                                                                    "hotels": hotels})
 
 
-@router.delete("/")
-def delete_booking(request: Request, db: Session = Depends(get_db)):
-    pass
+@router.post("/cancel/{booking_id}/{email}")
+def delete_booking(request: Request, email: str,booking_id: int, db: Session = Depends(get_db)):
+    crud.deleteBooking(db, booking_id)
+    user = User(email=email)
+    res, name = crud.getClientData(db, user)
+    return templates.TemplateResponse("pages/userBookings.html", {"request": request, "res": res, "Name": name, "email": user.email})
 
 
 def splitDate(date: str):

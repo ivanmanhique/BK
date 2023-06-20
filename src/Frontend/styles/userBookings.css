@@ -6,6 +6,28 @@ body {
     background-color: white !important;
 }
 
+.delete-btn{
+    text-decoration: none;
+    color: red;
+}
+
+.table td.delete-button-container {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .table td.delete-button-container button.delete-button {
+    background: none;
+    color: red;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    border-radius: 0;
+  }
 .navbar {
     background-color: #0F0E17; /* Set the desired background color for the navbar */
     width: 100%;
